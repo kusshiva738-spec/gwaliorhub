@@ -6,9 +6,12 @@ import { motion } from "framer-motion";
 import {
   Home,
   Search,
+  MapPinSearch,
   Plus,
   MessageSquareText,
   User,
+  HeartHandshake,
+  
 } from "lucide-react";
 
 export default function MobileBottomNav() {
@@ -56,7 +59,7 @@ export default function MobileBottomNav() {
                 : "text-white/60"
             }`}
           >
-            <Home size={23} />
+            <Home size={22} />
             <span className="mt-1">
               Home
             </span>
@@ -71,11 +74,27 @@ export default function MobileBottomNav() {
                 : "text-white/60"
             }`}
           >
-            <Search size={23} />
+            <Search size={22} />
             <span className="mt-1">
               Explore
             </span>
           </Link>
+          
+          {/* places */}
+          <Link
+            href="/places"
+            className={`flex flex-col items-center text-xs transition ${
+              active("/places")
+                ? "text-purple-400"
+                : "text-white/60"
+            }`}
+          >
+            < MapPinSearch size={22} />
+            <span className="mt-1">
+              Places
+            </span>
+          </Link>
+
 
           {/* Spacer */}
           <div className="w-16"></div>
@@ -89,7 +108,7 @@ export default function MobileBottomNav() {
                 : "text-white/60"
             }`}
           >
-            <MessageSquareText size={23} />
+            <MessageSquareText size={22} />
             <span className="mt-1">
               Wall
             </span>
@@ -104,11 +123,28 @@ export default function MobileBottomNav() {
                 : "text-white/60"
             }`}
           >
-            <User size={23} />
+            <User size={22} />
             <span className="mt-1">
               Profile
             </span>
           </Link>
+
+          
+          {/* About */}
+          <Link
+            href="/about"
+            className={`flex flex-col items-center text-xs transition ${
+              active("/about")
+                ? "text-purple-400"
+                : "text-white/60"
+            }`}
+          >
+            <  HeartHandshake size={22} />
+            <span className="mt-1">
+              About Us
+            </span>
+          </Link>
+
 
         </div>
       </div>

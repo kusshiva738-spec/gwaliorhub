@@ -404,7 +404,7 @@ export default function WallPage() {
         {/* Header */}
         <div className="rounded-3xl bg-gradient-to-r from-pink-600/20 via-purple-600/20 to-indigo-600/20 border border-white/10 p-7">
           <h1 className="text-3xl font-bold text-white">🧱 Gwalior Wall</h1>
-          <p className="text-purple-200 mt-1 text-sm">Share your thoughts anonymously</p>
+          <p className="text-purple-200 mt-1 text-sm">Share your thoughts anonymously . Auto delete in 7 days</p>
         </div>
 
         {/* Filter tabs */}

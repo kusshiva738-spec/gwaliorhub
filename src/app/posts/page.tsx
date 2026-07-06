@@ -17,9 +17,9 @@ interface CategoryDef {
 const CATEGORIES: Record<string, CategoryDef> = {
   Events: { icon: "🎉", subcategories: ["College Event", "Workshop", "Cultural", "Sports", "Religious"] },
   Education: { icon: "📚", subcategories: ["Coaching", "Home Tuition", "School", "College", "Training"] },
-  Property: { icon: "🏠", subcategories: ["Room", "PG", "Hostel", "Flat", "Shop"] },
+  Property: { icon: "🏠", subcategories: ["Room", "PG", "Hostel", "Flat","Mess", "Shop"] },
   Jobs: { icon: "💼", subcategories: ["Internship", "Full Time", "Part Time", "Freelance"] },
-  Offers: { icon: "🛍️", subcategories: ["Restaurant", "Clothing", "Electronics", "Grocery"] },
+  Offers: { icon: "🛍️", subcategories: ["Restaurant", "Clothing", "Electronics", "Grocery","others"] },
   Community: { icon: "🤝", subcategories: ["Blood Donation", "NGO", "Lost & Found", "Awareness"] },
   Advertisement: { icon: "📢", subcategories: ["Business Promotion"] },
   Bhandara: { icon: "🍲", subcategories: [] },

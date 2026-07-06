@@ -33,26 +33,26 @@ interface Report { post_id: string; user_id: string; }
 const CATEGORY_TREE: Record<string, { icon: string; subcategories: string[] }> = {
   Events:        { icon: "🎉", subcategories: ["College Event", "Workshop", "Cultural", "Sports", "Religious"] },
   Education:     { icon: "📚", subcategories: ["Coaching", "Home Tuition", "School", "College", "Training"] },
-  Property:      { icon: "🏠", subcategories: ["Room", "PG", "Hostel", "Flat", "Shop"] },
+  Property:      { icon: "🏠", subcategories: ["Room", "PG", "Hostel", "Flat","Mess", "Shop"] },
   Jobs:          { icon: "💼", subcategories: ["Internship", "Full Time", "Part Time", "Freelance"] },
-  Offers:        { icon: "🛍️", subcategories: ["Restaurant", "Clothing", "Electronics", "Grocery"] },
+  Offers:        { icon: "🛍️", subcategories: ["Restaurant", "Clothing", "Electronics", "Grocery", "others"] },
   Community:     { icon: "🤝", subcategories: ["Blood Donation", "NGO", "Lost & Found", "Awareness"] },
   Advertisement: { icon: "📢", subcategories: ["Business Promotion"] },
   Bhandara:      { icon: "🍲", subcategories: [] },
 };
 
-const FILTER_TABS = ["All", "Events", "Offers", "Food", "Property", "Education", "Jobs", "Community"] as const;
+const FILTER_TABS = ["All", "Events", "Offers", "Bhandara", "Property", "Education", "Jobs", "Community"] as const;
 type FilterTab = (typeof FILTER_TABS)[number];
 
 const TAB_TO_CATEGORIES: Record<FilterTab, string[] | null> = {
   All: null, Events: ["Events"], Offers: ["Offers", "Advertisement"],
-  Food: ["Bhandara"], Property: ["Property"], Education: ["Education"],
+  Bhandara: ["Bhandara"], Property: ["Property"], Education: ["Education"],
   Jobs: ["Jobs"], Community: ["Community"],
 };
 
 const TAB_TO_TREE_KEY: Partial<Record<FilterTab, string>> = {
   Events: "Events", Education: "Education", Property: "Property",
-  Jobs: "Jobs", Offers: "Offers", Community: "Community", Food: "Bhandara",
+  Jobs: "Jobs", Offers: "Offers", Community: "Community", Bhandara: "Bhandara",
 };
 
 const REPORT_REASONS = [

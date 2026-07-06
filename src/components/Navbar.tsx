@@ -72,12 +72,24 @@ export default function Navbar() {
             >
               Gwalior Wall
             </Link>
+             <Link
+              href="/places"
+              className={linkClass("places")}
+            >
+              Places
+            </Link>
             
             <Link
               href="/myposts"
               className={linkClass("/myposts")}
             >
               My Profile
+            </Link>
+             <Link
+              href="/about"
+              className={linkClass("/about")}
+            >
+              About Us
             </Link>
 
           </nav>
