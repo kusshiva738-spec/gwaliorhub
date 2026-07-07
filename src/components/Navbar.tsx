@@ -53,7 +53,7 @@ export default function Navbar() {
 
           {/* Navigation */}
 
-          <nav className="flex items-center gap-8">
+          <nav className="flex items-center gap-7">
 
             <Link href="/feed" className={linkClass("/")}>
               Home
