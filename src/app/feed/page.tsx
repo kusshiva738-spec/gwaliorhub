@@ -5,6 +5,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardLayout from "@/components/DashboardLayout";
 import { supabase } from "@/lib/supabase";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "feed",
+
+  description:
+    "see ehat happening today in gwalior",
+};
 
 
 /* ──────────────────────────────────────────────────────────────

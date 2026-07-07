@@ -1,5 +1,13 @@
 "use client";
 import DashboardLayout from "@/components/DashboardLayout";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+
+  description:
+    "Learn about the vision and mission behind GwaliorHub and why we built it for the people of Gwalior.",
+};
 
 import {
   FaBullseye,
