@@ -225,7 +225,7 @@ export default function AuthPage() {
     setError(""); setGoogleNote(false); setGoogleLoading(true);
     const { error: e } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: `${window.location.origin}/feed` },
     });
     if (e) {
       setGoogleLoading(false);
