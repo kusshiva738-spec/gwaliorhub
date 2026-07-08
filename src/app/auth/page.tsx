@@ -221,7 +221,7 @@ export default function AuthPage() {
   }
 
   /* ── Google OAuth ──────────────────────────────────────────── */
-  async function handleGoogle() {
+  async function handleGoogleLogin() {
     setError(""); setGoogleNote(false); setGoogleLoading(true);
     const { error: e } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -574,7 +574,7 @@ export default function AuthPage() {
                     </div>
 
                     <button
-                      onClick={handleGoogle}
+                      onClick={handleGoogleLogin}
                       disabled={googleLoading}
                       className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 py-4 font-medium text-white transition hover:bg-white/10 disabled:opacity-50"
                     >

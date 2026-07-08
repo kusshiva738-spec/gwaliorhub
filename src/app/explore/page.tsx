@@ -4,14 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import { supabase } from "@/lib/supabase";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Explore",
-
-  description:
-    "see what peoples exploring",
-};
 interface Post {
   id: string;
   user_id: string | null;
