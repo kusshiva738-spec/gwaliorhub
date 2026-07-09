@@ -178,7 +178,7 @@ export default function ProfilePage() {
     if (!confirm("Log out of GwaliorHub?")) return;
     setLoggingOut(true);
     await supabase.auth.signOut();
-    router.push("/login");
+    router.push("/feed");
   }
 
   if (loading) {
