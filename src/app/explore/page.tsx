@@ -615,7 +615,7 @@ export default function ExplorePage() {
             <h3 className="text-white font-semibold text-lg">Login required</h3>
             <p className="text-slate-400 text-sm mt-2">Please log in to like or report posts.</p>
             <div className="flex flex-col gap-2 mt-5">
-              <button onClick={() => router.push("/login")}
+              <button onClick={() => router.push("/auth")}
                 className="w-full px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-orange-500 text-white font-semibold text-sm hover:opacity-90 transition-opacity">
                 Go to Login
               </button>

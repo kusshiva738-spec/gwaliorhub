@@ -219,7 +219,7 @@ export default function CreatePostPage() {
           <p className="text-slate-400 text-sm mt-2">You need to be logged in to create a post.</p>
           <div className="flex flex-col gap-2 mt-5">
             <button
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/auth")}
               className="w-full px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-orange-500 text-white font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               Go to Login
@@ -266,7 +266,7 @@ export default function CreatePostPage() {
                 Create Another Post
               </button>
               <button
-                onClick={() => router.push("/profile")}
+                onClick={() => router.push("/myposts")}
                 className="px-6 py-2.5 rounded-xl bg-white/5 text-slate-300 text-sm border border-white/10 hover:border-white/20 transition-colors"
               >
                 View My Posts

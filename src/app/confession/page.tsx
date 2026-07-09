@@ -692,7 +692,7 @@ export default function WallPage() {
             </p>
             <div className="flex flex-col gap-2 mt-5">
               <button
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/auth")}
                 className="w-full px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-orange-500 text-white font-semibold text-sm hover:opacity-90 transition-opacity"
               >
                 Go to Login
