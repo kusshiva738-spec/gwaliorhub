@@ -442,10 +442,24 @@ export default function CreatePostPage() {
             {(SHOWS_LISTING_FIELDS.has(category) || SHOWS_EVENT_FIELDS.has(category)) && (
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Area">
-                  <input value={area} onChange={e => setArea(e.target.value)}
-                    placeholder="e.g. City Centre, Lashkar"
-                    
-                    className="form-inp" />
+                  <select
+              value={area}
+              onChange={(e) =>
+                setArea(e.target.value)
+              }
+              aria-placeholder="e.g. City Centre, Lashka"
+              className="w-full bg-[#241b3d] rounded-2xl px-5 py-4 outline-none"
+            >
+              <option>Lashkar</option>
+              <option>City Centre</option>
+              <option>Morar</option>
+               <option>Thatipur</option>
+                <option>Gole Ka Mandir</option>
+                <option>Hazira </option>
+                 <option>Other</option>
+                  
+            </select>
+                 
                 </Field>
                 <Field label="Contact">
                   <input value={contact} onChange={e => setContact(e.target.value)}
