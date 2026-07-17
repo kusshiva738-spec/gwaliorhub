@@ -465,9 +465,9 @@ export default function AboutPage() {
 
     </p>
 
-    <div className="mt-6 text-lg font-bold">
+    <div className="mt-6 text-lg font-bold shadow - yellow">
 
-      ❤️ Built by Gwalior • For Gwalior ❤️
+       Built with ❤️ • For Gwalior✨
 
     </div>
 

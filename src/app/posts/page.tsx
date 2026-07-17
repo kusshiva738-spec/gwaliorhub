@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import { supabase } from "@/lib/supabase";
+import imageCompression from "browser-image-compression";4
 
 /* ──────────────────────────────────────────────────────────────
    Category tree
@@ -145,7 +146,7 @@ export default function CreatePostPage() {
   function handlePosterChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { setError("Image must be under 2 MB."); return; }
+    if (file.size > 10 * 1024 * 1024) { setError("Image must be under 10 MB."); return; }
     setPosterFile(file);
     setPosterPreview(URL.createObjectURL(file));
     setError("");
@@ -165,8 +166,30 @@ export default function CreatePostPage() {
 
     setUploadingImage(true);
     try {
-      const form = new FormData();
-      form.append("file",          posterFile);
+     let fileToUpload = posterFile;
+
+// Compress only if image is larger than 500 KB
+if (posterFile.size > 500 * 1024) {
+  fileToUpload = await imageCompression(posterFile, {
+    maxSizeMB: 0.5,
+    useWebWorker: true,
+    initialQuality: 0.75,
+    // Don't add maxWidthOrHeight if you want to keep dimensions unchanged
+  });
+}
+console.log(
+  "Original:",
+  (posterFile.size / 1024).toFixed(0),
+  "KB"
+);
+
+console.log(
+  "Compressed:",
+  (fileToUpload.size / 1024).toFixed(0),
+  "KB"
+);
+const form = new FormData();
+form.append("file", fileToUpload);
       form.append("upload_preset", uploadPreset);
       form.append("folder",        "gwaliorhub/posts");
 
@@ -184,7 +207,9 @@ export default function CreatePostPage() {
     } finally {
       setUploadingImage(false);
     }
+    
   }
+  
 
   /* ── Submit ──────────────────────────────────────────────────── */
 
