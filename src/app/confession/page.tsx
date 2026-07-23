@@ -573,7 +573,7 @@ export default function WallPage() {
       {/* Comments modal */}
       {activePost && (
         <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm px-0 sm:px-4"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm px-1 py-20 sm:px-5"
           onClick={() => setActiveId(null)}
         >
           <div
