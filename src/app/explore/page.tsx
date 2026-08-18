@@ -48,20 +48,21 @@ const CATEGORY_TREE: Record<string, { icon: string; subcategories: string[] }> =
   Community:     { icon: "🤝", subcategories: ["Blood Donation", "NGO", "Lost & Found", "Awareness"] },
   Advertisement: { icon: "📢", subcategories: ["Business Promotion"] },
   Bhandara:      { icon: "🍲", subcategories: [] },
+  Mess:      { icon: "🍲", subcategories: [] },
 };
 
-const FILTER_TABS = ["All", "Events", "Offers", "Food", "Property", "Education", "Jobs", "Community"] as const;
+const FILTER_TABS = ["All", "Events", "Offers", "Bhandara", "Property", "Education", "Jobs", "Community","Mess"] as const;
 type FilterTab = (typeof FILTER_TABS)[number];
 
 const TAB_TO_CATEGORIES: Record<FilterTab, string[] | null> = {
   All: null, Events: ["Events"], Offers: ["Offers", "Advertisement"],
-  Food: ["Bhandara"], Property: ["Property"], Education: ["Education"],
-  Jobs: ["Jobs"], Community: ["Community"],
+  Bhandara: ["Bhandara"], Property: ["Property"], Education: ["Education"],
+  Jobs: ["Jobs"], Community: ["Community"],Mess:["Mess"]
 };
 
 const TAB_TO_TREE_KEY: Partial<Record<FilterTab, string>> = {
   Events: "Events", Education: "Education", Property: "Property",
-  Jobs: "Jobs", Offers: "Offers", Community: "Community", Food: "Bhandara",
+  Jobs: "Jobs", Offers: "Offers", Community: "Community", Bhandara: "Bhandara", Mess:"Mess"
 };
 
 const REPORT_REASONS = [
@@ -76,7 +77,7 @@ const AREAS = [
 
 const CATEGORY_ICON: Record<string, string> = {
   Events: "📅", Education: "📚", Property: "🏠", Jobs: "💼",
-  Offers: "🛍️", Community: "🤝", Advertisement: "📢", Bhandara: "🍲",
+  Offers: "🛍️", Community: "🤝", Advertisement: "📢", Bhandara: "🍲", Mess:"🍲"
 };
 
 const PAGE_SIZE        = 12;
@@ -161,6 +162,7 @@ export default function ExplorePage() {
   const [reportDoneId,     setReportDoneId]     = useState<string | null>(null);
   const [showLoginModal,   setShowLoginModal]   = useState(false);
   const [lightbox,         setLightbox]         = useState<{ url: string; title: string } | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -307,10 +309,45 @@ export default function ExplorePage() {
   }
 
   /* ── Open post ───────────────────────────────────────────────── */
-  function openPost(post: Post) {
-    supabase.from("posts").update({ views: post.views + 1 }).eq("id", post.id).then();
-    // ise hatya yhan se thab 404 band hua poster click karne par router.push(`/post/${post.id}`);
+  async function openPost(post: Post) {
+  // UI me immediately +1
+  const updatedPost = {
+    ...post,
+    views: post.views + 1,
+  };
+
+  setSelectedPost(updatedPost);
+
+  // Main posts list me bhi +1
+  setPosts(prev =>
+    prev.map(p =>
+      p.id === post.id
+        ? { ...p, views: p.views + 1 }
+        : p
+    )
+  );
+
+  // Database me update
+  const { error } = await supabase
+    .from("posts")
+    .update({ views: post.views + 1 })
+    .eq("id", post.id);
+
+  if (error) {
+    console.error("View update failed:", error);
+
+    // Agar DB update fail ho gaya to local state rollback
+    setPosts(prev =>
+      prev.map(p =>
+        p.id === post.id
+          ? { ...p, views: post.views }
+          : p
+      )
+    );
+
+    setSelectedPost(post);
   }
+}
 
   /* ── Subcategory chips ───────────────────────────────────────── */
   const treeKey = TAB_TO_TREE_KEY[activeTab];
@@ -321,6 +358,13 @@ export default function ExplorePage() {
   ────────────────────────────────────────────────────────────── */
   return (
     <DashboardLayout>
+      {selectedPost && (
+  <PostDetailModal
+    post={selectedPost}
+    onClose={() => setSelectedPost(null)}
+  />
+)}
+
       {/* Poster lightbox */}
       {lightbox && (
         <PosterLightbox url={lightbox.url} title={lightbox.title} onClose={() => setLightbox(null)} />
@@ -429,6 +473,7 @@ export default function ExplorePage() {
                   <div className="p-3">
                     <p className="text-white font-semibold text-sm truncate">{post.title}</p>
                     <p className="text-slate-400 text-xs mt-0.5 truncate">{post.area || post.venue || post.category}</p>
+                  
                   </div>
                 </button>
               ))}
@@ -553,6 +598,252 @@ export default function ExplorePage() {
   );
 }
 
+function PostDetailModal({
+  post,
+  onClose,
+}: {
+  post: Post;
+  onClose: () => void;
+}) {
+  const expLabel = expiryLabel(post.expires_at);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center bg-black/80 px-0 sm:px-2"
+      onClick={onClose}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        className="w-full sm:max-w-lg max-h-[100vh] sm:max-h-[92vh] flex flex-col rounded-t-3xl sm:rounded-3xl border border-white/10 bg-[#130f22] shadow-2xl overflow-hidden"
+      >
+
+        {/* ───────────────── Poster ───────────────── */}
+        <div className="relative h-[300px] sm:h-[360px] flex-shrink-0 bg-black/30">
+
+          {post.poster_url ? (
+            <img
+              src={post.poster_url}
+              alt={post.title}
+              className="w-full h-full object-contain bg-black"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-7xl bg-gradient-to-br from-purple-600/20 to-pink-600/20">
+              {CATEGORY_ICON[post.category] || "📌"}
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-[#130f22] via-black/10 to-transparent pointer-events-none" />
+
+          {/* Close */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors backdrop-blur-sm"
+          >
+            ✕
+          </button>
+
+          {/* Verified */}
+          {post.is_verified && (
+            <span className="absolute top-3 left-3 text-[11px] font-bold px-3 py-1.5 rounded-full bg-sky-500/90 text-white backdrop-blur-sm">
+              ✓ Verified
+            </span>
+          )}
+
+          {/* Featured */}
+          {post.featured && (
+            <span className="absolute top-14 left-3 text-[11px] font-bold px-3 py-1.5 rounded-full bg-amber-400 text-black">
+              ⭐ Featured
+            </span>
+          )}
+
+          {/* Expiry */}
+          {expLabel && (
+            <span className="absolute top-3 right-14 text-[10px] font-bold px-3 py-1.5 rounded-full bg-amber-500/90 text-black">
+              ⏳ {expLabel}
+            </span>
+          )}
+
+        </div>
+
+
+        {/* ───────────────── Scrollable body ───────────────── */}
+        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
+
+          {/* Category */}
+          <div className="flex items-center gap-2 flex-wrap">
+
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300">
+              {CATEGORY_ICON[post.category] || "📌"} {post.category}
+            </span>
+
+            {post.subcategory && (
+              <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300">
+                {post.subcategory}
+              </span>
+            )}
+
+          </div>
+
+
+          {/* Title */}
+          <h2 className="text-white font-black text-xl leading-snug">
+            {post.title}
+          </h2>
+
+
+          {/* Description */}
+          {post.description && (
+            <div>
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                Description
+              </h3>
+
+              <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+                {post.description}
+              </p>
+            </div>
+          )}
+
+
+          {/* Details */}
+          <div className="rounded-2xl bg-white/[0.04] border border-white/10 divide-y divide-white/5">
+
+            {post.venue && (
+              <DetailRow
+                icon="📍"
+                label="Venue"
+                value={post.venue}
+              />
+            )}
+
+            {post.area && (
+              <DetailRow
+                icon="📌"
+                label="Area"
+                value={post.area}
+              />
+            )}
+
+            {post.date && (
+              <DetailRow
+                icon="📅"
+                label="Date"
+                value={formatDate(post.date) || post.date}
+              />
+            )}
+
+            {post.time && (
+              <DetailRow
+                icon="⏰"
+                label="Time"
+                value={formatTime(post.time) || post.time}
+              />
+            )}
+
+            {post.contact && (
+              <DetailRow
+                icon="📞"
+                label="Contact"
+                value={post.contact}
+                isPhone
+              />
+            )}
+
+            <DetailRow
+              icon="👁"
+              label="Views"
+              value={`${post.views} people viewed this`}
+            />
+
+          </div>
+
+
+          {/* Google Maps */}
+          {post.google_maps_link && (
+            <a
+              href={post.google_maps_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-slate-300 font-semibold text-sm hover:bg-white/10 transition-colors"
+            >
+              🗺️ View on Google Maps
+            </a>
+          )}
+
+
+          {/* Call */}
+          {post.contact && (
+            <a
+              href={`tel:${post.contact}`}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-violet-500/20 hover:opacity-90 transition-opacity"
+            >
+              📞 Contact
+            </a>
+          )}
+
+
+          {/* Download poster */}
+          {post.poster_url && (
+            <a
+              href={post.poster_url}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-slate-300 font-semibold text-sm hover:bg-white/10 transition-colors"
+            >
+              ⬇️ Download Poster
+            </a>
+          )}
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
+function DetailRow({
+  icon,
+  label,
+  value,
+  isPhone = false,
+}: {
+  icon: string;
+  label: string;
+  value: string | null;
+  isPhone?: boolean;
+}) {
+  if (!value) return null;
+
+  return (
+    <div className="flex items-start gap-3 px-4 py-3.5">
+
+      <span className="text-lg shrink-0">
+        {icon}
+      </span>
+
+      <div className="min-w-0">
+        <p className="text-[10px] uppercase tracking-wider font-bold text-slate-500">
+          {label}
+        </p>
+
+        {isPhone ? (
+          <a
+            href={`tel:${value}`}
+            onClick={e => e.stopPropagation()}
+            className="text-sm text-violet-300 hover:text-violet-200 break-words"
+          >
+            {value}
+          </a>
+        ) : (
+          <p className="text-sm text-slate-300 break-words">
+            {value}
+          </p>
+        )}
+      </div>
+
+    </div>
+  );
+}
 /* ──────────────────────────────────────────────────────────────
    Poster Lightbox
    ────────────────────────────────────────────────────────────── */
@@ -603,7 +894,7 @@ function CardShell({ onOpen, children }: { onOpen: () => void; children: React.R
 
 function PosterImage({ post, onPosterClick }: { post: Post; onPosterClick?: () => void }) {
   const expLabel = expiryLabel(post.expires_at);
-  supabase.from("posts").update({ views: post.views + 1 }).eq("id", post.id).then();
+ 
 
   return (
     <div className="h-44 bg-white/5 relative overflow-hidden">
@@ -690,7 +981,7 @@ function PostCard(props: CardProps) {
   const { post } = props;
   if (post.category === "Events" || post.category === "Bhandara") return <EventCard {...props} />;
   if (post.category === "Offers") return <OfferCard {...props} />;
-  if (post.category === "Property") return <PropertyCard {...props} />;
+  if (post.category === "Property"|| post.category==="Mess") return <PropertyCard {...props} />;
   return <GenericCard {...props} />;
 }
 
@@ -700,6 +991,12 @@ function EventCard(p: CardProps) {
       <PosterImage post={p.post} onPosterClick={p.onPosterClick} />
       <div className="p-4">
         <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{p.post.title}</p>
+        {p.post.description && (
+  <p className="mt-2 text-xs text-slate-400 leading-relaxed line-clamp-3">
+    {p.post.description}
+  </p>
+)}
+        
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-slate-400">
           {p.post.venue && <span className="truncate max-w-[160px]">📍 {p.post.venue}</span>}
           {p.post.date  && <span>📅 {formatDate(p.post.date)}{p.post.time && ` · ${formatTime(p.post.time)}`}</span>}
@@ -743,6 +1040,7 @@ function PropertyCard(p: CardProps) {
         <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{p.post.title}</p>
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-slate-400">
           {p.post.area && <span>📍 {p.post.area}</span>}
+          {p.post.description && <p className="mt-1.5 text-xs text-slate-400 line-clamp-3">{p.post.description}</p>}
           {p.post.subcategory && <span className="text-purple-300">{p.post.subcategory}</span>}
         </div>
         <ActionBar {...p} />
@@ -757,8 +1055,19 @@ function GenericCard(p: CardProps) {
       <PosterImage post={p.post} onPosterClick={p.onPosterClick} />
       <div className="p-4">
         <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{p.post.title}</p>
-        {p.post.description && <p className="mt-1.5 text-xs text-slate-400 line-clamp-2">{p.post.description}</p>}
+        {p.post.description && <p className="mt-1.5 text-xs text-slate-400 line-clamp-3">{p.post.description}</p>}
         {p.post.area && <p className="mt-2 text-xs text-slate-400">📍 {p.post.area}</p>}
+        {p.post.date && (
+    <span>
+      📅 {formatDate(p.post.date)}
+    </span>
+  )}
+
+  {p.post.time && (
+    <span>
+      ⏰ {formatTime(p.post.time)}
+    </span>
+  )}
         <ActionBar {...p} />
       </div>
     </CardShell>

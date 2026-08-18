@@ -24,10 +24,11 @@ const CATEGORIES: Record<string, CategoryDef> = {
   Community:     { icon: "🤝", subcategories: ["Blood Donation", "NGO", "Lost & Found", "Awareness"] },
   Advertisement: { icon: "📢", subcategories: ["Business Promotion"] },
   Bhandara:      { icon: "🍲", subcategories: [] },
+  Mess:      { icon: "🍲", subcategories: [] },
 };
 
 const SHOWS_EVENT_FIELDS   = new Set(["Events", "Community", "Bhandara"]);
-const SHOWS_LISTING_FIELDS = new Set(["Property", "Jobs", "Education", "Offers", "Advertisement"]);
+const SHOWS_LISTING_FIELDS = new Set(["Property","Mess", "Jobs", "Education", "Offers", "Advertisement"]);
 
 /* Default expiry presets — user can also pick a custom date */
 const EXPIRY_PRESETS = [
