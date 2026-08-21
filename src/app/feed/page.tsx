@@ -445,7 +445,7 @@ const [weather, setWeather] = useState<Weather>({
 
         {/* ── GWALIOR WALL ──────────────────────────────────────── */}
         {confessions.length > 0 && (
-          <Section title="🧱 Gwalior Wall — Trending" href="/wall" accent="fuchsia">
+          <Section title="🧱 Gwalior Wall — Trending" href="/confession" accent="fuchsia">
             <div className="flex gap-4 overflow-x-auto -mx-4 px-4 pb-3 scrollbar-none">
               {confessions.map(c => <ConfessionCard key={c.id} confession={c} />)}
             </div>
