@@ -500,24 +500,82 @@ export default function AboutPage() {
 
       </div>
 
-      <div>
+     <div>
+  <h4 className="font-bold text-lg">
+    💬 Reviews & Suggestions
+  </h4>
 
-        <h4 className="font-bold text-lg">
-          Platform
-        </h4>
+  <p className="mt-2 text-sm text-white/60 leading-6">
+    Help us make GwaliorHub better. Share your feedback,
+    ideas, or report a problem.
+  </p>
 
-        <div className="mt-3 space-y-2 text-sm text-white/70">
+  <form
+    action="https://mail.google.com/mail/"
+    method="get"
+    target="_blank"
+    className="mt-4 space-y-3"
+    onSubmit={(e) => {
+      e.preventDefault();
 
-          <p>🎉 Events</p>
-          <p>🛍️ Offers</p>
-          <p>🏠 Rooms</p>
-          <p>📚 Education</p>
-          <p>🍲 Bhandara</p>
-          <p>🤝 Community</p>
+      const form = e.currentTarget;
+      const data = new FormData(form);
 
-        </div>
+      const subject = encodeURIComponent(
+        `GwaliorHub Feedback - ${data.get("type")}`
+      );
 
-      </div>
+      const body = encodeURIComponent(
+        `Feedback Type: ${data.get("type")}\n\n` +
+        `Message:\n${data.get("message")}`
+      );
+
+      window.location.href =
+        `mailto:gwaliorhub1@gmail.com?subject=${subject}&body=${body}`;
+    }}
+  >
+    <select
+      name="type"
+      required
+      defaultValue="Review"
+      className="w-full rounded-xl border border-white/10
+      bg-[#151528] text-white px-3 py-2.5 text-sm
+      outline-none focus:border-purple-400"
+    >
+      <option value="Review">⭐ Share a Review</option>
+      <option value="Suggestion">💡 Suggest an Idea</option>
+      <option value="Bug Report">🐛 Report a Problem</option>
+      <option value="Feature Request">🚀 Request a Feature</option>
+    </select>
+
+    <textarea
+      name="message"
+      required
+      minLength={5}
+      maxLength={2000}
+      rows={3}
+      placeholder="Write your review or suggestion..."
+      className="w-full rounded-xl border border-white/10
+      bg-white/5 text-white px-3 py-3 text-sm
+      placeholder:text-white/40 outline-none
+      focus:border-purple-400 resize-y"
+    />
+
+    <button
+      type="submit"
+      className="w-full rounded-xl bg-gradient-to-r
+      from-purple-600 to-pink-600 px-4 py-3
+      text-sm font-bold text-white
+      hover:opacity-90 active:scale-[0.98] transition"
+    >
+      Send Feedback ✉️
+    </button>
+  </form>
+
+  <p className="mt-2 text-xs text-white/40">
+    Your email app will open with your feedback ready to send.
+  </p>
+</div>
 
       <div>
 
@@ -528,15 +586,111 @@ export default function AboutPage() {
         <div className="mt-3 space-y-2 text-sm text-white/70">
 
           <p>📍 Gwalior, Madhya Pradesh</p>
-          <p>🌐 gwaliorhub.vercel.app</p>
-          <p>📲insta gwaliorhub1</p>
-          <p>📧 gwaliorhub1@gmail.com</p>
+         <div className="mt-3 space-y-3 text-sm text-white/70">
 
+  {/* Website */}
+  <a
+    href="https://gwaliorhub.vercel.app"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 hover:text-cyan-400 transition-colors"
+  >
+    🌐 gwaliorhub.vercel.app
+  </a>
+
+  {/* Instagram */}
+  <a
+    href="https://www.instagram.com/gwaliorhub1/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 hover:text-pink-400 transition-colors"
+  >
+    📲 Instagram: @gwaliorhub1
+  </a>
+
+  {/* Gmail */}
+  <a
+    href="mailto:gwaliorhub1@gmail.com"
+    className="flex items-center gap-2 hover:text-purple-400 transition-colors"
+  >
+    📧Email: gwaliorhub1@gmail.com
+  </a>
+
+</div>
         </div>
 
       </div>
 
     </div>
+
+<div className="rounded-2xl border border-purple-400/25
+  bg-gradient-to-br from-purple-500/10 via-pink-500/10
+  to-cyan-500/10 p-5
+  hover:border-purple-400/50 transition-all ">
+
+  <div className="flex items-center gap-3">
+    <span className="text-3xl">🚀</span>
+
+    <div>
+      <h4 className="text-lg font-black text-white">
+        Join Our Team
+      </h4>
+      <p className="text-xs text-purple-300">
+        Let's Grow with GwaliorHub
+      </p>
+    </div>
+  </div>
+
+  <p className="mt-3 text-sm text-white/70 leading-6">
+    Have a passion for technology or a vision for Gwalior?
+    Join us as a developer or investor and help build a
+    stronger digital future for our city.
+  </p>
+
+  <div className="mt-4 space-y-3">
+
+    <div className="flex items-center gap-3 text-sm text-white/80">
+      <span className="text-xl">💻</span>
+      <div>
+        <p className="font-bold">Developers</p>
+        <p className="text-xs text-white/50">
+          Build features, improve the platform and innovate.
+        </p>
+      </div>
+    </div>
+    
+
+    <div className="flex items-center gap-3 text-sm text-white/80">
+      <span className="text-xl">🤝</span>
+      <div>
+        <p className="font-bold">Investors & Supporters</p>
+        <p className="text-xs text-white/50">
+          Help us scale, grow and reach more people.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <a
+    href="https://docs.google.com/forms/d/e/1FAIpQLScDn8RBjHfNfYqVqJsK63r021ij0sTnq2heAFkhvjujdqt4lQ/viewform?usp=header"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-5 flex items-center justify-center gap-2
+    w-full rounded-xl bg-gradient-to-r
+    from-purple-600 via-pink-600 to-cyan-600
+    px-4 py-3 text-sm font-bold text-white
+    shadow-lg shadow-purple-500/20
+    hover:opacity-90 active:scale-[0.98] transition-all"
+  >
+    Join us now →
+  </a>
+
+  <p className="mt-3 text-center text-xs text-white/40">
+    Together, let's build something meaningful for Gwalior ❤️
+  </p>
+
+</div>
 
     <div className="mt-8 border-t border-white/10 pt-5 text-center text-xs text-white/50">
 

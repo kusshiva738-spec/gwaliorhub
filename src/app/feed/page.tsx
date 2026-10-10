@@ -472,6 +472,126 @@ const [weather, setWeather] = useState<Weather>({
             ))}
           </div>
         </div>
+        {/* ── REVIEWS & TESTIMONIALS ─────────────────────────── */}
+<section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-violet-500/[0.10] via-[#11111b] to-pink-500/[0.08] p-6 sm:p-8">
+
+  {/* Background glow */}
+  <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-fuchsia-500/10 blur-3xl" />
+  <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-violet-500/10 blur-3xl" />
+
+  <div className="relative z-10">
+    <div className="mb-6 text-center">
+      <span className="text-xs font-bold uppercase tracking-[0.25em] text-pink-400">
+        Community Love
+      </span>
+
+      <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">
+        What People Say About{" "}
+        <span className="bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
+          GwaliorHub
+        </span>
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-400">
+        Discover what our community thinks about connecting with Gwalior.
+      </p>
+    </div>
+
+    {/* Static sample testimonials — auto sliding */}
+  
+{/* ── AUTO-SLIDING REVIEWS ─────────────────────────── */}
+<div className="group relative overflow-hidden">
+  <div className="flex w-max animate-testimonial-slide group-hover:[animation-play-state:paused]">
+
+    {[0, 1].map((copy) => (
+      <div key={copy} className="flex shrink-0 gap-4 pr-4">
+
+        {[
+          {
+            name: "A Gwalior Resident",
+            role: "Local Community",
+            initials: "GR",
+            review:
+              "Discover local events, community updates and things happening around Gwalior.",
+            color: "from-pink-500 to-rose-500",
+          },
+          {
+            name: "Ayush Chaudhary",
+            role: "City Discoverer",
+            initials: "AC",
+            review:
+              "Find local offers, bhandaras and events in one convenient place, amazing platform.",
+            color: "from-violet-500 to-indigo-500",
+          },
+          {
+            name: "Nitin Rathore",
+            role: "Gwalior Community",
+            initials: "NR",
+            review:
+              "A great concept for connecting people with local businesses and city updates.",
+            color: "from-cyan-500 to-blue-500",
+          },
+        ].map((item) => (
+          <article
+            key={item.initials}
+            className="flex w-[280px] shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:w-[320px]"
+          >
+            <div className="mb-3 text-lg tracking-widest text-amber-400">
+              ★★★★★
+            </div>
+
+            <p className="min-h-[90px] text-sm leading-6 text-slate-300">
+              “{item.review}”
+            </p>
+
+            <div className="mt-auto flex items-center gap-3 border-t border-white/10 pt-4">
+              <div
+                className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br ${item.color} text-sm font-black text-white`}
+              >
+                {item.initials}
+              </div>
+
+              <div>
+                <p className="text-sm font-bold text-white">{item.name}</p>
+                <p className="mt-1 text-xs text-slate-400">{item.role}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+
+        {/* Share Review card */}
+        <article className="flex w-[280px] shrink-0 flex-col items-center justify-center rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-500/10 to-violet-500/10 p-5 text-center sm:w-[320px]">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-500/15 text-3xl">
+            💬
+          </div>
+
+          <h3 className="text-lg font-black text-white">
+            Share Your Review
+          </h3>
+
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            Have feedback or suggestions? We would love to hear from you!
+          </p>
+
+          <Link
+            href="/about"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+          >
+            Visit About Us →
+          </Link>
+        </article>
+
+      </div>
+    ))}
+  </div>
+</div>
+
+
+    <p className="mt-5 text-center text-[11px] text-slate-500">
+      Sample testimonials — replace these with genuine community feedback.
+    </p>
+  </div>
+</section>
 
       </div>
     </DashboardLayout>

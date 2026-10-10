@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes testimonial-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-testimonial-slide {
+  animation: testimonial-slide 35s linear infinite;
+  width: max-content;
+  will-change: transform;
+}
